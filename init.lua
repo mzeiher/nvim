@@ -1,3 +1,3 @@
 require("config.lazy")
 
- vim.wo.relativenumber = true
+vim.wo.relativenumber = true

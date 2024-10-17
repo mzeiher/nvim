@@ -18,13 +18,15 @@ return {
 			vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 			vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 			vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+			vim.keymap.set('n', '<leader>fd', '<cmd>Telescope diagnostics bufnr=0<CR>', { desc = 'Telescope show diagnostics' })
+			vim.keymap.set('n', '<leader>fD', '<cmd>Telescope diagnostics<CR>', { desc = 'Telescope show diagnostics' })
 		end
 	},
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 		config = function()
-			vim.keymap.set("n", "<leader>fb", ":Telescope file_browser<CR>")
+			vim.keymap.set("n", "<leader>fB", ":Telescope file_browser<CR>")
 
 			-- open file_browser with the path of the current buffer
 			-- vim.keymap.set("n", "<leader>fb", ":Telescope file_browser path=%:p:h select_buffer=true<CR>")
