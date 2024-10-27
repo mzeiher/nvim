@@ -34,5 +34,7 @@ return {
 				vim.cmd("FormatWrite")
 			end,
 		})
+
+		vim.api.nvim_set_keymap("n", "<leader><leader>f", ":Format<cr>", { silent = true, noremap = true })
 	end,
 }
