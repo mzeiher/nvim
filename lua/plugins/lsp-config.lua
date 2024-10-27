@@ -19,10 +19,25 @@ return {
 			local lspconfig = require("lspconfig")
 
 			lspconfig.lua_ls.setup({})
+
 			lspconfig.gopls.setup({})
+
 			lspconfig.terraformls.setup({})
+
 			lspconfig.ts_ls.setup({})
+
 			lspconfig.gitlab_ci_ls.setup({})
+			vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+				pattern = "*.gitlab-ci*.{yml,yaml}",
+				callback = function()
+					vim.bo.filetype = "yaml.gitlab"
+				end,
+			})
+
+			lspconfig.pyright.setup({})
+
+			lspconfig.yamlls.setup({})
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
