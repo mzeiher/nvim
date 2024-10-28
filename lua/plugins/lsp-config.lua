@@ -64,9 +64,10 @@ return {
 				callback = function(ev)
 					local telescope_builtin = require("telescope.builtin")
 					local opts = { buffer = ev.buf }
-					vim.keymap.set("n", "gD", telescope_builtin.lsp_type_definitions, opts)
+					vim.keymap.set("n", "gy", telescope_builtin.lsp_type_definitions, opts)
 					vim.keymap.set("n", "gd", telescope_builtin.lsp_definitions, opts)
 					vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
+					vim.keymap.set("n", "gE", vim.diagnostic.open_float, opts)
 					vim.keymap.set("n", "gI", telescope_builtin.lsp_implementations, opts)
 					vim.keymap.set("n", "ds", telescope_builtin.lsp_document_symbols, opts)
 					vim.keymap.set("n", "dS", telescope_builtin.lsp_workspace_symbols, opts)
