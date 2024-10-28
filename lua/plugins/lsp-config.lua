@@ -20,16 +20,26 @@ return {
 		"neovim/nvim-lspconfig",
 		config = function()
 			local lspconfig = require("lspconfig")
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			lspconfig.lua_ls.setup({
+				capabilities = capabilities,
+			})
 
-			lspconfig.lua_ls.setup({})
+			lspconfig.gopls.setup({
+				capabilities = capabilities,
+			})
 
-			lspconfig.gopls.setup({})
+			lspconfig.terraformls.setup({
+				capabilities = capabilities,
+			})
 
-			lspconfig.terraformls.setup({})
+			lspconfig.ts_ls.setup({
+				capabilities = capabilities,
+			})
 
-			lspconfig.ts_ls.setup({})
-
-			lspconfig.gitlab_ci_ls.setup({})
+			lspconfig.gitlab_ci_ls.setup({
+				capabilities = capabilities,
+			})
 			vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 				pattern = "*.gitlab-ci*.{yml,yaml}",
 				callback = function()
@@ -37,11 +47,17 @@ return {
 				end,
 			})
 
-			lspconfig.pyright.setup({})
+			lspconfig.pyright.setup({
+				capabilities = capabilities,
+			})
 
-			lspconfig.yamlls.setup({})
+			lspconfig.yamlls.setup({
+				capabilities = capabilities,
+			})
 
-			lspconfig.zls.setup({})
+			lspconfig.zls.setup({
+				capabilities = capabilities,
+			})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),

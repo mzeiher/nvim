@@ -38,6 +38,6 @@ return {
 			end,
 		})
 
-		vim.api.nvim_set_keymap("n", "<leader><space>f", ":Format<cr>", { silent = true, noremap = true })
+		vim.api.nvim_set_keymap("n", "<leader>bf", ":Format<cr>", { silent = true, noremap = true })
 	end,
 }
