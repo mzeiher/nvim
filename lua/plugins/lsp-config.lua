@@ -14,6 +14,9 @@ return {
 		end,
 	},
 	{
+		"nvim-lua/lsp-status.nvim",
+	},
+	{
 		"neovim/nvim-lspconfig",
 		config = function()
 			local lspconfig = require("lspconfig")
@@ -57,6 +60,17 @@ return {
 					-- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
 					-- vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
 					-- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+					-- enable inlay hints
+					vim.keymap.set("n", "<leader>h", function()
+						local bufnr = vim.api.nvim_get_current_buf()
+						vim.lsp.inlay_hint.enable(
+							not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+							{ bufnr = bufnr }
+						)
+					end, { noremap = true, silent = true })
+					vim.keymap.set("n", "<leader>H", function()
+						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+					end, { noremap = true, silent = true })
 				end,
 			})
 		end,
