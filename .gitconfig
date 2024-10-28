@@ -1,0 +1,21 @@
+[user]
+	email = mathis.zeiher@gmail.com
+	name = Mathis Zeiher
+[credential]
+	helper = libsecret
+
+[includeIf "gitdir:~/workspace/repos/gitlab.com/eleamedical/"]
+  path = .gitconfig-elea
+[includeIf "gitdir:~/workspace/repos/gitlab.sick.com/"]
+  path = .gitconfig-sick
+[diff]
+	algorithm = histogram
+[merge]
+	conflictstyle = zdiff3
+	tool = nvim
+[push]
+	autoSetupRemote = true
+[core]
+	editor = vim
+[mergetool "nvim"]
+	cmd = nvim -d -c \"wincmd l\" -c \"norm ]c\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
