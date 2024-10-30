@@ -38,6 +38,8 @@ return {
 				{ desc = "Telescope show diagnostics" }
 			)
 			vim.keymap.set("n", "<leader>fD", "<cmd>Telescope diagnostics<CR>", { desc = "Telescope show diagnostics" })
+
+			vim.keymap.set("n", "<leader>bc", builtin.git_bcommits, { desc = "show commits for buffer" })
 		end,
 	},
 	{
