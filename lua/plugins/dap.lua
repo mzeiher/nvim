@@ -57,48 +57,49 @@ return {
 			end, { desc = "threads" })
 
 			-- golang
-			dap.adapters.delve = function(callback, config)
-				if config.mode == "remote" and config.request == "attach" then
-					callback({
-						type = "server",
-						host = config.host or "127.0.0.1",
-						port = config.port or "38697",
-					})
-				else
-					callback({
-						type = "server",
-						port = "${port}",
-						executable = {
-							command = "dlv",
-							args = { "dap", "-l", "127.0.0.1:${port}", "--log", "--log-output=dap" },
-							detached = vim.fn.has("win32") == 0,
-						},
-					})
-				end
-			end
+			dap.adapters.go = {
+				type = "executable",
+				command = "node",
+				args = { os.getenv("HOME") .. "/.config/nvim/3rdparty/debugAdapter.js" },
+			}
 			dap.configurations.go = {
 				{
-					type = "delve",
+					type = "go",
 					name = "Debug",
 					request = "launch",
 					program = "${file}",
-				},
-				{
-					type = "delve",
-					name = "Debug test", -- configuration for debugging test files
-					request = "launch",
-					mode = "test",
-					program = "${file}",
-				},
-				-- works with go.mod packages and sub packages
-				{
-					type = "delve",
-					name = "Debug test (go.mod)",
-					request = "launch",
-					mode = "test",
-					program = "./${relativeFileDirname}",
+					dlvToolPath = vim.fn.exepath("dlv"),
+					console = "integratedTerminal",
+					terminal = "integratedTerminal",
 				},
 			}
+			-- codelldb
+			dap.adapters.codelldb = {
+				type = "server",
+				port = "${port}",
+				executable = {
+					-- CHANGE THIS to your path!
+					command = "/home/mathis/opt/codelldb/adapter/codelldb",
+					args = { "--port", "${port}" },
+				},
+			}
+			dap.configurations.cpp = {
+				{
+					name = "Launch file",
+					type = "codelldb",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+				},
+			}
+			dap.configurations.c = dap.configurations.cpp
+			dap.configurations.rust = dap.configurations.cpp
+			dap.configurations.zig = dap.configurations.cpp
+
+			dap.defaults.fallback.terminal_win_cmd = "50vsplit new"
 		end,
 	},
 }
