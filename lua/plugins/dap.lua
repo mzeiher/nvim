@@ -9,12 +9,48 @@ return {
 			-- general
 			dap.defaults.fallback.focus_terminal = true
 
+			-- custom signal handlers
+
+			-- Function to send a signal to the debugged process
+			local function send_signal_to_debuggee(signal)
+				if not dap.session() then
+					print("No active debug session")
+					return
+				end
+
+				-- Get the process ID from the debug session
+				local pid = dap.session().pid
+
+				if pid then
+					-- Use vim.fn.system to execute kill command
+					vim.fn.system(string.format("kill -%s %d", signal, pid))
+				end
+			end
+
+			-- Create keymaps or commands to use the function
+			vim.api.nvim_create_user_command("DapSignal", function(opts)
+				send_signal_to_debuggee(opts.args)
+			end, {
+				nargs = 1,
+				complete = function()
+					return { "SIGUSR1", "SIGUSR2", "SIGHUP", "SIGTERM", "SIGINT" }
+				end,
+			})
+
+			local function terminate_debug_session()
+				-- First terminate the session with callback to ensure completion
+				dap.disconnect({ terminateDebuggee = true })
+				-- dap.terminate({}, {}, function()
+				dap.close()
+				-- end)
+			end
+
 			-- keymap
 			vim.keymap.set("n", "<leader>dc", function()
 				require("dap").continue()
 			end, { desc = "continue" })
 			vim.keymap.set("n", "<leader>dT", function()
-				require("dap").terminate()
+				terminate_debug_session()
 			end, { desc = "terminate" })
 			vim.keymap.set("n", "<leader>dss", function()
 				require("dap").step_over()
@@ -82,7 +118,7 @@ return {
 				port = "${port}",
 				executable = {
 					-- CHANGE THIS to your path!
-					command = "/home/mathis/opt/codelldb/adapter/codelldb",
+					command = os.getenv("HOME") .. "/.config/nvim/3rdparty/linux_amd64/codelldb/adapter/codelldb",
 					args = { "--port", "${port}" },
 				},
 			}
@@ -109,7 +145,10 @@ return {
 				executable = {
 					command = "node",
 					-- 💀 Make sure to update this path to point to your installation
-					args = { "/home/mathis/opt/js-debug/src/dapDebugServer.js", "${port}" },
+					args = {
+						os.getenv("HOME") .. "/.config/nvim/3rdparty/linux_amd64/js-debug/src/dapDebugServer.js",
+						"${port}",
+					},
 				},
 			}
 			dap.configurations.javascript = {
