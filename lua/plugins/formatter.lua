@@ -1,63 +1,21 @@
 return {
-	"mhartington/formatter.nvim",
-	opts = function()
-		return {
-			filetype = {
-				go = {
-					require("formatter.filetypes.go").gofmt,
-					require("formatter.filetypes.go").goimports,
-				},
-				lua = {
-					require("formatter.filetypes.lua").stylua,
-				},
-				python = {
-					require("formatter.filetypes.python").iruff,
-				},
-				terraform = {
-					require("formatter.filetypes.terraform").terraformfmt,
-				},
-				dart = {
-					require("formatter.filetypes.dart").dartformat,
-				},
+	"stevearc/conform.nvim",
+	opts = {},
+	config = function()
+		require("conform").setup({
+			formatters_by_ft = {
+				lua = { "stylua" },
+				go = { "goimports", "gofmt" },
+				javascript = { "prettierd", "prettier", stop_after_first = true },
+				terraform = { "terraform_fmt" },
+				dart = { "dart_format" },
+				python = { "ruff_organize_imports", "ruff" },
 			},
-		}
-	end,
-	config = function(_, opts)
-		require("formatter").setup(opts)
-
-		-- Create an augroup for formatter
-		vim.api.nvim_create_augroup("FormatAutogroup", { clear = true })
-
-		-- Set up autocommand to run formatter on save for Go files
-		vim.api.nvim_create_autocmd("BufWritePost", {
-			pattern = "*.go",
-			group = "FormatAutogroup",
-			callback = function()
-				vim.cmd("FormatWrite")
-			end,
+			format_on_save = {
+				-- These options will be passed to conform.format()
+				timeout_ms = 500,
+				lsp_format = "fallback",
+			},
 		})
-		vim.api.nvim_create_autocmd("BufWritePost", {
-			pattern = "*.lua",
-			group = "FormatAutogroup",
-			callback = function()
-				vim.cmd("FormatWrite")
-			end,
-		})
-		vim.api.nvim_create_autocmd("BufWritePost", {
-			pattern = "*.dart",
-			group = "FormatAutogroup",
-			callback = function()
-				vim.cmd("FormatWrite")
-			end,
-		})
-		vim.api.nvim_create_autocmd("BufWritePost", {
-			pattern = "*.tf",
-			group = "FormatAutogroup",
-			callback = function()
-				vim.cmd("FormatWrite")
-			end,
-		})
-
-		vim.api.nvim_set_keymap("n", "<leader>bf", ":Format<cr>", { silent = true, noremap = true })
 	end,
 }

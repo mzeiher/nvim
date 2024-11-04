@@ -47,10 +47,20 @@ return {
 				lualine_c = {
 					"%=", --[[ add your center compoentnts here in place of this comment ]]
 				},
-				lualine_x = { "require'lsp-status'.status()" },
+				lualine_x = {
+					"require'lsp-status'.status()",
+					{
+						function()
+							return " " .. require("dap").status()
+						end,
+						cond = function()
+							return package.loaded["dap"] and require("dap").status() ~= ""
+						end,
+					},
+				},
 				lualine_y = { "filetype" },
 				lualine_z = {
-					{ "location", separator = { right = "" }, left_padding = 2 },
+					{ "location" },
 				},
 			},
 			inactive_sections = {
