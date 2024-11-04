@@ -10,6 +10,9 @@ return {
 				terraform = { "terraform_fmt" },
 				dart = { "dart_format" },
 				python = { "ruff_organize_imports", "ruff" },
+				json = { "jq" },
+				yaml = { "yq" },
+				-- xml = { "yq" },
 			},
 			format_on_save = {
 				-- These options will be passed to conform.format()
@@ -17,5 +20,8 @@ return {
 				lsp_format = "fallback",
 			},
 		})
+		vim.keymap.set("n", "<leader>bf", function()
+			require("conform").format({ async = true })
+		end, { desc = "Format buffer" })
 	end,
 }

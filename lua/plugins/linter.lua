@@ -5,6 +5,7 @@ return {
 		lint.linters_by_ft = {
 			markdown = { "markdownlint-cli2" },
 			python = { "ruff" },
+			javascript = { "eslint" },
 		}
 		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 			callback = function()
