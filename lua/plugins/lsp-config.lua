@@ -63,6 +63,10 @@ return {
 				capabilities = capabilities,
 			})
 
+			lspconfig.dartls.setup({
+				capabilities = capabilities,
+			})
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)

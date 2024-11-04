@@ -99,6 +99,25 @@ return {
 			dap.configurations.rust = dap.configurations.cpp
 			dap.configurations.zig = dap.configurations.cpp
 
+			dap.adapters["pwa-node"] = {
+				type = "server",
+				host = "localhost",
+				port = "${port}",
+				executable = {
+					command = "node",
+					-- 💀 Make sure to update this path to point to your installation
+					args = { "/home/mathis/opt/js-debug/src/dapDebugServer.js", "${port}" },
+				},
+			}
+			dap.configurations.javascript = {
+				{
+					type = "pwa-node",
+					request = "launch",
+					name = "Launch file",
+					program = "${file}",
+					cwd = "${workspaceFolder}",
+				},
+			}
 			dap.defaults.fallback.terminal_win_cmd = "50vsplit new"
 		end,
 	},

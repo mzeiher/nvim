@@ -13,6 +13,12 @@ return {
 				python = {
 					require("formatter.filetypes.python").iruff,
 				},
+				terraform = {
+					require("formatter.filetypes.terraform").terraformfmt,
+				},
+				dart = {
+					require("formatter.filetypes.dart").dartformat,
+				},
 			},
 		}
 	end,
@@ -32,6 +38,20 @@ return {
 		})
 		vim.api.nvim_create_autocmd("BufWritePost", {
 			pattern = "*.lua",
+			group = "FormatAutogroup",
+			callback = function()
+				vim.cmd("FormatWrite")
+			end,
+		})
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			pattern = "*.dart",
+			group = "FormatAutogroup",
+			callback = function()
+				vim.cmd("FormatWrite")
+			end,
+		})
+		vim.api.nvim_create_autocmd("BufWritePost", {
+			pattern = "*.tf",
 			group = "FormatAutogroup",
 			callback = function()
 				vim.cmd("FormatWrite")
