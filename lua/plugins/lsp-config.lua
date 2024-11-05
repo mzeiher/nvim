@@ -72,30 +72,60 @@ return {
 				callback = function(ev)
 					local telescope_builtin = require("telescope.builtin")
 					local opts = { buffer = ev.buf }
-					vim.keymap.set("n", "gy", telescope_builtin.lsp_type_definitions, opts)
-					vim.keymap.set("n", "gd", telescope_builtin.lsp_definitions, opts)
-					vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
-					vim.keymap.set("n", "gE", vim.diagnostic.open_float, opts)
-					vim.keymap.set("n", "gI", telescope_builtin.lsp_implementations, opts)
-					vim.keymap.set("n", "ds", telescope_builtin.lsp_document_symbols, opts)
-					vim.keymap.set("n", "dS", telescope_builtin.lsp_workspace_symbols, opts)
-					vim.keymap.set("n", "cr", vim.lsp.buf.rename, opts)
+					vim.keymap.set(
+						"n",
+						"gy",
+						telescope_builtin.lsp_type_definitions,
+						{ buffer = ev.buf, desc = "type definitions" }
+					)
+					vim.keymap.set(
+						"n",
+						"gd",
+						telescope_builtin.lsp_definitions,
+						{ buffer = ev.buf, desc = "type definitions" }
+					)
+					vim.keymap.set("n", "gh", vim.lsp.buf.hover, { buffer = ev.buf, desc = "lsp hover" })
+					vim.keymap.set("n", "gE", vim.diagnostic.open_float, { buffer = ev.buf, desc = "diagnostics" })
+					vim.keymap.set(
+						"n",
+						"gI",
+						telescope_builtin.lsp_implementations,
+						{ buffer = ev.buf, desc = "implementations" }
+					)
+					vim.keymap.set(
+						"n",
+						"ds",
+						telescope_builtin.lsp_document_symbols,
+						{ buffer = ev.buf, desc = "document symbols" }
+					)
+					vim.keymap.set(
+						"n",
+						"dS",
+						telescope_builtin.lsp_workspace_symbols,
+						{ buffer = ev.buf, desc = "workspace symbols" }
+					)
+					vim.keymap.set(
+						"n",
+						"cr",
+						vim.lsp.buf.rename,
+						{ buffer = ev.buf, desc = "rename symbol (refactor)" }
+					)
 					-- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
 					-- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
 					-- vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
 					-- vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
 					-- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
 					-- enable inlay hints
-					vim.keymap.set("n", "<leader>h", function()
+					vim.keymap.set("n", "<leader>bh", function()
 						local bufnr = vim.api.nvim_get_current_buf()
 						vim.lsp.inlay_hint.enable(
 							not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
 							{ bufnr = bufnr }
 						)
-					end, { noremap = true, silent = true })
+					end, { noremap = true, silent = true, desc = "enable inlay hint for buffer" })
 					vim.keymap.set("n", "<leader>H", function()
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-					end, { noremap = true, silent = true })
+					end, { noremap = true, silent = true, desc = "enable inlay hints globally" })
 				end,
 			})
 		end,
