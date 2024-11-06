@@ -12,7 +12,7 @@ return {
 				python = { "ruff_organize_imports", "ruff" },
 				json = { "jq" },
 				yaml = { "yq" },
-				-- xml = { "yq" },
+				toml = { "taplo" },
 			},
 			format_on_save = {
 				-- These options will be passed to conform.format()

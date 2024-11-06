@@ -67,11 +67,19 @@ return {
 				capabilities = capabilities,
 			})
 
+			lspconfig.taplo.setup({
+				capabilities = capabilities,
+			})
+
+			lspconfig.sourcekit.setup({
+				capabilities = capabilities,
+				filetypes = { "swift", "objc", "objcpp", "swiftinterface" },
+			})
+
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
 					local telescope_builtin = require("telescope.builtin")
-					local opts = { buffer = ev.buf }
 					vim.keymap.set(
 						"n",
 						"gy",
